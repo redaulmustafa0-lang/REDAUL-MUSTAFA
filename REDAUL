@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redaul Mustafa — Official Preview</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+  }
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  .container {
+    max-width: 800px;
+    width: 90%;
+    padding: 25px;
+    background: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .profile-pic {
+    width: 180px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    margin-bottom: 15px;
+  }
+  h1 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  .bio {
+    font-size: 1.1em;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+  .bio span {
+    font-weight: bold;
+    animation: sparkle 3s infinite;
+    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  @keyframes sparkle {
+    0%,100% { filter: brightness(1); }
+    50% { filter: brightness(2); }
+  }
+  .social-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #0066cc;
+    transition: transform 0.3s, color 0.3s;
+  }
+  .social-links a:hover {
+    color: #ff3d00;
+    transform: scale(1.1);
+  }
+  .extras {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .extras img {
+    width: 80px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+  .extras img:hover {
+    transform: scale(1.2) rotate(10deg);
+    box-shadow: 0 0 20px #ff3d00, 0 0 40px #ff3d00;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<canvas id="sparkles"></canvas>
+
+<div class="container">
+  <img src="https://i.postimg.cc/PxNYCjXK/626.jpg" alt="Redaul Mustafa" class="profile-pic">
+  <h1>Redaul Mustafa</h1>
+  <p class="bio">
+    <span>REDAUL MUSTAFA</span>, WHO USED TO ENGAGE IN <span>MINOR HACKING ACTIVITIES</span>, LATER ABANDONED THAT AND STARTED <span>PLAYING FREE FIRE</span>. HE BECAME QUITE GOOD AT THE GAME AND GAINED A <span>GOOD REPUTATION</span>. NOW, HE WORKS PART-TIME WHILE CONTINUING HIS STUDIES. CURRENTLY IN <span>11TH GRADE</span>, COMPLETING 12TH IN 2026. BORN ON <span>08/09/2008</span>, ACTIVE ON TWO PLATFORMS BELOW.
+  </p>
+
+  <div class="social-links">
+    <a href="https://www.instagram.com/classy.redaul_07/" target="_blank">Instagram (Personal)</a>
+    <a href="https://www.instagram.com/redxeno_/" target="_blank">Instagram (Gaming)</a>
+  </div>
+
+  <div class="extras">
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" alt="Indian Flag">
+    <img src="https://cdn12.idcgames.com/storage/image/1258/free-new-logo/default.jpg" alt="Free Fire">
+    <img src="https://as2.ftcdn.net/v2/jpg/05/56/19/27/1000_F_556192719_ufc0kALMglVMchMm0qkzc7N1TskdMrEd.jpg" alt="Hacking Icon">
+  </div>
+</div>
+
+<script>
+  // Main particles background
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  let particlesArray = [];
+  class Particle {
+    constructor(x, y, size, color, speedX, speedY){
+      this.x = x; this.y = y;
+      this.size = size; this.color = color;
+      this.speedX = speedX; this.speedY = speedY;
+    }
+    update(){
+      this.x += this.speedX; this.y += this.speedY;
+      if(this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
+      if(this.y < 0 || this.y > canvas.height) this.speedY = -this.speedY;
+    }
+    draw(){
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  function initParticles(){
+    particlesArray = [];
+    for(let i=0;i<80;i++){
+      let size = Math.random()*3+1;
+      let x = Math.random()*canvas.width;
+      let y = Math.random()*canvas.height;
+      let speedX = (Math.random()-0.5)*1;
+      let speedY = (Math.random()-0.5)*1;
+      particlesArray.push(new Particle(x,y,size,'rgba(255,77,0,0.7)',speedX,speedY));
+    }
+  }
+  function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particlesArray.forEach(p=>{p.update();p.draw();});
+    requestAnimationFrame(animateParticles);
+  }
+  window.addEventListener('resize', ()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initParticles();
+  });
+  initParticles();
+  animateParticles();
+
+  // Floating sparkles around the container
+  const sparkleCanvas = document.getElementById('sparkles');
+  const sCtx = sparkleCanvas.getContext('2d');
+  sparkleCanvas.width = window.innerWidth;
+  sparkleCanvas.height = window.innerHeight;
+  let sparkles = [];
+  class Sparkle {
+    constructor(x, y, size, speedY){
+      this.x = x; this.y = y; this.size = size; this.speedY = speedY;
+    }
+    update(){
+      this.y -= this.speedY;
+      if(this.y < 0) this.y = sparkleCanvas.height;
+    }
+    draw(){
+      sCtx.fillStyle = 'rgba(255, 200, 0, 0.8)';
+      sCtx.beginPath();
+      sCtx.arc(this.x, this.y, this.size,0,Math.PI*2);
+      sCtx.fill();
+    }
+  }
+  function initSparkles(){
+    sparkles = [];
+    for(let i=0;i<50;i++){
+      let x = Math.random()*sparkleCanvas.width;
+      let y = Math.random()*sparkleCanvas.height;
+      let size = Math.random()*2+1;
+      let speedY = Math.random()*0.5+0.2;
+      sparkles.push(new Sparkle(x,y,size,speedY));
+    }
+  }
+  function animateSparkles(){
+    sCtx.clearRect(0,0,sparkleCanvas.width,sparkleCanvas.height);
+    sparkles.forEach(s=>{s.update();s.draw();});
+    requestAnimationFrame(animateSparkles);
+  }
+  window.addEventListener('resize', ()=>{
+    sparkleCanvas.width = window.innerWidth;
+    sparkleCanvas.height = window.innerHeight;
+    initSparkles();
+  });
+  initSparkles();
+  animateSparkles();
+</script>
+
+</body>
+</html>
